@@ -8,7 +8,7 @@ spring:
     ### mysql 8.0+ 【注意还需要修改 pom.xml 文件中引入的 mysql-connector-java 驱动版本】
     # url: jdbc:mysql://127.0.0.1:3306/school
     ### mysql 5.7
-    url: jdbc:mysql://localhost:3306/school?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/school?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: shizhenglian
     ### mysql 8.0+
@@ -16,3 +16,10 @@ spring:
     ### mysql 5.7
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath:com/xgon/classmanager/mapper/xml/*.xml
+  # 可以直接使用 parameterType="Student"，而非 parameterType="com.xgon.classmanager.entity.Student"
+  type-aliases-package: com.xgon.classmanager.entity
+  configuration:
+    map-underscore-to-camel-case: true # (表字段名)下划线转(类属性名)驼峰[用于将从数据库中查询到的数据封装到一个对象中]

@@ -19,12 +19,18 @@ CREATE TABLE students
     name        VARCHAR(25) NOT NULL COMMENT '姓名',
     sex         CHAR(1)     NOT NULL COMMENT '性别（1 男、2 女）',
     id_card     CHAR(18)    NOT NULL UNIQUE COMMENT '身份证号',
-    create_time DATETIME    NOT NULL COMMENT '创建时间', -- TIMESTAMP OR DATETIME
-    update_time DATETIME    NOT NULL COMMENT '修改时间',
+    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- TIMESTAMP OR DATETIME
+    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间', -- CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
   COLLATE utf8mb4_unicode_ci COMMENT '学生信息表';
+
+-- 初始化学生表
+INSERT INTO students(account, password, name, sex, id_card, create_time, update_time, is_deleted)
+VALUES ('123456', '123456', '张三', '1', '325412197007055415', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
+       ('1234567', '123456', '李四', '1', '325412197007055416', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
+       ('12345678', '123456', '王五', '1', '325412197007055417', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
 
 -- 创建家长表（一个家长可以有多个孩子，一个孩子可以有多个家长（父亲或母亲））
 DROP TABLE IF EXISTS parents;
@@ -35,10 +41,10 @@ CREATE TABLE parents
     password    VARCHAR(20) NOT NULL COMMENT '密码',
     name        VARCHAR(25) NOT NULL COMMENT '姓名',
     phone       CHAR(11)    NOT NULL COMMENT '手机号',
-    student_id  INT         NOT NULL COMMENT '学生id',
+    student_id  INT COMMENT '学生id',
     sex         CHAR(1)     NOT NULL COMMENT '性别（1 男、2 女）',
-    create_time DATETIME    NOT NULL COMMENT '创建时间',
-    update_time DATETIME    NOT NULL COMMENT '修改时间',
+    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）',
     FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE -- 级联删除
 ) ENGINE INNODB
@@ -53,8 +59,8 @@ CREATE TABLE classroom
     id          INT PRIMARY KEY AUTO_INCREMENT COMMENT '班级id',
     name        VARCHAR(25) NOT NULL COMMENT '班级名称',
     year        CHAR(6)     NOT NULL COMMENT '年级',
-    create_time DATETIME    NOT NULL COMMENT '创建时间',
-    update_time DATETIME    NOT NULL COMMENT '修改时间',
+    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4

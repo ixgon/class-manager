@@ -6,12 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xgon.classmanager.api.ResultCode;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Student;
+import com.xgon.classmanager.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +31,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
+    private StudentService studentService;
+
+    @Autowired
+    public void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ResultCode test() {
@@ -34,7 +46,7 @@ public class StudentController {
 
     @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
     public ResultCode addStudent(@RequestBody Student student) {
-        System.out.println(student);
+        studentService.addStudent(student);
         return ResultCode.SUCCESS.setData(1);
     }
 
@@ -62,6 +74,10 @@ public class StudentController {
                 });
         System.out.println(student);
 
-        return ResultCode.SUCCESS.setData(1);
+        HashMap<String, Object> data = new HashMap<>(3);
+        data.put("records", 1);
+        data.put("parents", 2);
+        data.put("page", page);
+        return ResultCode.SUCCESS.setData(data);
     }
 }

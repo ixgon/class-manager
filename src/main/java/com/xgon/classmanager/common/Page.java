@@ -1,5 +1,6 @@
 package com.xgon.classmanager.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -14,7 +15,10 @@ import java.util.List;
  * @author <a href="mail to: laoshi1998@outlook.com" rel="nofollow">xgon</a>
  * @version 1.0.0
  */
-public class Page {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Page implements Serializable {
+    private static final long serialVersionUID = 43L;
+
     /**
      * <p>Description:&ensp;存储查询返回的总记录集合</p>
      */

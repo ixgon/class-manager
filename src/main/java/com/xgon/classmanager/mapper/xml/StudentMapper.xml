@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgon.classmanager.mapper.StudentMapper">
+    <insert id="addStudent" parameterType="Student">
+        <!-- 配置插入数据时，获取所插入记录的 id -->
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+
+        INSERT INTO students(account, password, name, sex, id_card, create_time, update_time, is_deleted)
+        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{createTime}, #{updateTime}, #{isDeleted});
+    </insert>
+
+    <select id="getAllUser" resultType="Student">
+        select *
+        from students;
+    </select>
+</mapper>

@@ -67,6 +67,17 @@
                 <version>2.5.4</version>
             </plugin>
         </plugins>
+
+        <!-- 设置打包java源文件中的xml文件（默认只会打包resources目录下的资源文件，如xml文件） -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

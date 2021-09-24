@@ -1,5 +1,7 @@
 package com.xgon.classmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
@@ -23,7 +25,13 @@ public abstract class Person implements Serializable {
     protected Integer sex;
     protected String createTime;
     protected String updateTime;
-    protected Boolean isDeleted;
+    /**
+     * <p>Description:&ensp;删除此人的信息标志位（并非真正的删除）</p>
+     * <p>注意。因为是is开头的属性，在进行json解析时，会将其属性名中的is去掉。所以这里需要@JsonProperty注解进行属性名解析的映射。<br/>
+     * <a href="https://www.cnblogs.com/Zzwena/p/13744846.html">Java属性为什么不能是is开头的boolean</a></p>
+     */
+    @JsonProperty(value = "isDeleted")
+    protected Integer isDeleted;
 
     public Integer getId() {
         return id;
@@ -81,11 +89,11 @@ public abstract class Person implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         isDeleted = deleted;
     }
 }

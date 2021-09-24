@@ -20,5 +20,5 @@ public class Classroom {
     private String year;
     private String createTime;
     private String updateTime;
-    private Boolean isDeleted;
+    private Integer isDeleted;
 }
