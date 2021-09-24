@@ -15,6 +15,9 @@ import java.io.Serializable;
  *     public ResultCode test() {
  *         return ResultCode.SUCCESS; // Spring MVC 底层会默认使用jackson将对象序列化为字符串
  *     }
+ *
+ *     // 多级嵌套的json字符串，会被 Spring MVC 底层调用 jackson 解析成多级嵌套的 java.util.LinkedHashMap
+ *     public ResultCode page(@RequestBody Map<String, Object> models)
  * </pre>
  * <a href="https://blog.csdn.net/skyupward/article/details/105088051">配置枚举类型在Jackson中的序列化方式</a>
  * <p>对于枚举对象，Spring MVC 底层返回枚举属性值，如SUCCESS(200, "success")，返回对象名字符串化后的结果，而非对象承载的内容。
@@ -35,16 +38,18 @@ public enum ResultCode implements Serializable {
      */
     FAILURE(201, "failure");
 
+    private static final long serialVersionUID = 42L;
+
     /**
      * <p>Description:&ensp;响应(/返回)码</p>
      */
     @JsonProperty(value = "code")
-    private final int code;
+    private final int CODE;
     /**
      * <p>Description:&ensp;响应(/返回)消息</p>
      */
     @JsonProperty(value = "msg")
-    private final String msg;
+    private final String MSG;
     /**
      * <p>Description:&ensp;响应(/返回)数据</p>
      */
@@ -53,13 +58,13 @@ public enum ResultCode implements Serializable {
     private Serializable data;
 
     ResultCode(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
+        this.CODE = code;
+        this.MSG = msg;
     }
 
     ResultCode(int code, String msg, Serializable data) {
-        this.code = code;
-        this.msg = msg;
+        this.CODE = code;
+        this.MSG = msg;
         this.data = data;
     }
 
@@ -72,8 +77,8 @@ public enum ResultCode implements Serializable {
     public String toString() {
 
         return "ResultCode{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
+                "code=" + CODE +
+                ", msg='" + MSG + '\'' +
                 ", data=" + data +
                 '}';
     }

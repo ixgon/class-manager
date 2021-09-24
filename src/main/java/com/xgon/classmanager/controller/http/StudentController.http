@@ -17,3 +17,43 @@ Content-Type: application/json
   "updateTime": "",
   "isDeleted": "0"
 }
+
+### 学生修改
+POST http://127.0.0.1:8080/demo/student/editStudent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "1",
+  "account": "admin",
+  "name": "小张",
+  "password": "123456",
+  "sex": "1",
+  "idCard": "372328199905120312",
+  "updateTime": "",
+  "isDeleted": "0"
+}
+
+### 学生删除
+POST http://127.0.0.1:8080/demo/student/removeStudent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "1",
+  "isDeleted": "1"
+}
+
+### 学生查询
+POST http://127.0.0.1:8080/demo/student/page
+Accept: application/json
+Content-Type: application/json
+
+{
+  "size": 10,
+  "current": 1,
+  "data": {
+    "account": "admin",
+    "name": "小张"
+  }
+}
