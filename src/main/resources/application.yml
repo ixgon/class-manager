@@ -5,10 +5,14 @@ server:
 
 spring:
   datasource:
+    ### mysql 8.0+ 【注意还需要修改 pom.xml 文件中引入的 mysql-connector-java 驱动版本】
     # url: jdbc:mysql://127.0.0.1:3306/school
+    ### mysql 5.7
     url: jdbc:mysql://localhost:3306/school?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: shizhenglian
+    ### mysql 8.0+
     # driver-class-name: com.mysql.cj.jdbc.Driver
+    ### mysql 5.7
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
