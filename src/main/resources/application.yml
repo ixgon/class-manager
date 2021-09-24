@@ -4,7 +4,7 @@ server:
     context-path: /demo
 
 spring:
-  # 配置数据库数据源
+  # 配置获取数据库连接实例的数据源（DataSource）
   datasource:
     ### mysql 8.0+ 【注意还需要修改 pom.xml 文件中引入的 mysql-connector-java 驱动版本】
     # url: jdbc:mysql://127.0.0.1:3306/school

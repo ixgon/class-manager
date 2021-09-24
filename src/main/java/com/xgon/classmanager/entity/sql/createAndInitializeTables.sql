@@ -85,3 +85,10 @@ CREATE TABLE stuclass
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
   COLLATE utf8mb4_unicode_ci COMMENT '学生-班级信息表';
+
+# SELECT *
+# FROM students s
+#          JOIN stuclass sc ON s.id = sc.student_id
+#          JOIN classroom c ON c.id = sc.classroom_id
+#          JOIN parents p ON s.id = p.student_id
+
