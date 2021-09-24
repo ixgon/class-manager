@@ -27,10 +27,15 @@ public abstract class Person implements Serializable {
     protected String updateTime;
     /**
      * <p>Description:&ensp;删除此人的信息标志位（并非真正的删除）</p>
-     * <p>注意。因为是is开头的属性，在进行json解析时，会将其属性名中的is去掉。所以这里需要@JsonProperty注解进行属性名解析的映射。<br/>
+     * <p>注意。因为是is开头的属性，在进行json解析时，会将其属性名中的is去掉。所以这里需要@JsonProperty注解进行属性名解析的映射。
+     * 需要注意的是@JsonProperty(value = "isDeleted")不能加在这里的属性上，要加在下面的getter和setter方法上。
+     * 这是因为如果加在属性上。jackson按属性解析一回，还会按下面的getDeleted方法解析一回，这就导致对象序列化后的json字符串
+     * 中除了包含一个is_deleted字段，还会包含一个deleted属性！！！
+     * 我们还可以在属性上添加@JsonProperty(value = "isDeleted")，去掉相应的getter和setter方法。
+     * 由于isDeleted是私有属性，为了方便外接访问它，最好还是要提供getter和setter方法，所以推荐使用方法一解决这个问题。
+     * <br/>
      * <a href="https://www.cnblogs.com/Zzwena/p/13744846.html">Java属性为什么不能是is开头的boolean</a></p>
      */
-    @JsonProperty(value = "isDeleted")
     protected Integer isDeleted;
 
     public Integer getId() {
@@ -89,10 +94,12 @@ public abstract class Person implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @JsonProperty(value = "isDeleted")
     public Integer getDeleted() {
         return isDeleted;
     }
 
+    @JsonProperty(value = "isDeleted")
     public void setDeleted(Integer deleted) {
         isDeleted = deleted;
     }

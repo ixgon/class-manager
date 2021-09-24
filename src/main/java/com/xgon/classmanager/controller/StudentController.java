@@ -1,6 +1,5 @@
 package com.xgon.classmanager.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xgon.classmanager.api.ResultCode;
@@ -13,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,19 +47,18 @@ public class StudentController {
 
     @RequestMapping(value = "/editStudent", method = RequestMethod.POST)
     public ResultCode editStudent(@RequestBody Student student) {
-        System.out.println(student);
+        studentService.editStudent(student);
         return ResultCode.SUCCESS.setData(student);
     }
 
     @RequestMapping(value = "/removeStudent", method = RequestMethod.POST)
     public ResultCode removeStudent(@RequestBody Student student) {
-        System.out.println(student);
+        studentService.removeStudent(student);
         return ResultCode.SUCCESS.setData(student);
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public ResultCode page(@RequestBody Map<String, Object> models) {
-        System.out.println(models);
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
         page.setCurrentPageNum((Integer) models.get("current"));
@@ -72,7 +66,8 @@ public class StudentController {
         Student student = new ObjectMapper()
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
-        System.out.println(student);
+
+        // studentService.page(page, student);
 
         HashMap<String, Object> data = new HashMap<>(3);
         data.put("records", 1);

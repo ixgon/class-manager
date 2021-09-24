@@ -4,15 +4,38 @@
     <insert id="addStudent" parameterType="Student">
         <!-- 配置插入数据时，获取所插入记录的 id -->
         <selectKey keyProperty="id" resultType="Integer" order="AFTER">
-            SELECT LAST_INSERT_ID();
+            SELECT LAST_INSERT_ID()
         </selectKey>
 
         INSERT INTO students(account, password, name, sex, id_card, create_time, update_time, is_deleted)
-        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{createTime}, #{updateTime}, #{isDeleted});
+        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{createTime}, #{updateTime}, #{isDeleted})
     </insert>
 
-    <select id="getAllUser" resultType="Student">
-        select *
-        from students;
+    <update id="editStudent" parameterType="Student">
+        UPDATE students
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="account != null">account = #{account},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="removeStudent" parameterType="Student">
+        UPDATE students
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted == 1">is_deleted = #{isDeleted}</if>
+        </trim>
+        WHERE id = #{id}
+    </delete>
+
+    <select id="page" resultType="Map">
+        SELECT *
+        FROM students
+        WHERE account = #{student.getAccount()}
+          AND name = #{student.getName()} LIMIT #{page.getStartIndex()}
+            , #{page.getPageSize()};
     </select>
 </mapper>

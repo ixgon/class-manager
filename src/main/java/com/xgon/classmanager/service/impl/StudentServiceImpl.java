@@ -28,15 +28,24 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void addStudent(Student student) {
-        System.out.println(student);
-        //取当前时间
-        Date now = new Date();
-        //转换时间格式 Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(now))
-        String nowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(now);
+        // 转换时间格式 Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
+        String nowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         student.setCreateTime(nowStr);
         student.setUpdateTime(nowStr);
 
         studentMapper.addStudent(student);
-        System.out.println(student);
+    }
+
+    @Override
+    public void editStudent(Student student) {
+        String nowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        student.setUpdateTime(nowStr);
+
+        studentMapper.editStudent(student);
+    }
+
+    @Override
+    public void removeStudent(Student student) {
+        studentMapper.removeStudent(student);
     }
 }
