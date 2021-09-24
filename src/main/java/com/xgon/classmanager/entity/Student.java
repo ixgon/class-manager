@@ -30,6 +30,22 @@ public class Student extends Person implements Serializable {
         this.idCard = idCard;
     }
 
+    public Classroom getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
+    }
+
+    public List<Parent> getParents() {
+        return parents;
+    }
+
+    public void setParents(List<Parent> parents) {
+        this.parents = parents;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -42,6 +58,8 @@ public class Student extends Person implements Serializable {
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", isDeleted=" + isDeleted +
+                ", classroom=" + classroom +
+                ", parents=" + parents +
                 '}';
     }
 }

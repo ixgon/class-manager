@@ -62,12 +62,13 @@ public class StudentController {
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
         page.setCurrentPageNum((Integer) models.get("current"));
+        page.buildStartIndex();
 
         Student student = new ObjectMapper()
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
 
-        // studentService.page(page, student);
+        System.out.println(studentService.queryStudent(page, student));
 
         HashMap<String, Object> data = new HashMap<>(3);
         data.put("records", 1);

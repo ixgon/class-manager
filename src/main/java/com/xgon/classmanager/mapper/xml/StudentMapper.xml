@@ -31,11 +31,36 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="page" resultType="Map">
+    <select id="queryStudent" resultMap="studentResult">
         SELECT *
-        FROM students
-        WHERE account = #{student.getAccount()}
-          AND name = #{student.getName()} LIMIT #{page.getStartIndex()}
-            , #{page.getPageSize()};
+        FROM students s
+                 JOIN stuclass sc ON s.id = sc.student_id
+                 JOIN classroom c ON c.id = sc.classroom_id
+                 JOIN parents p ON s.id = p.student_id
+        WHERE s.account = #{student.account, jdbcType=VARCHAR}
+          AND s.name = #{student.name, jdbcType=VARCHAR} LIMIT #{page.startIndex}
+            , #{page.pageSize}
     </select>
+    <!-- 不要使用 student.getAccount()，因为getAccount()是其从父类处继承的！
+         account即使是私有属性，mybatis也会通过反射直接访问到。
+        WHERE account = #{student.account, jdbcType=VARCHAR}
+          AND name = #{student.name, jdbcType=VARCHAR} LIMIT #{page.startIndex}
+            , #{page.pageSize}
+
+            Java Column ‘xxx‘ in where clause is ambiguous问题解决：
+            多个表都有role_id字段，但是没指定role_id是位于哪个表。
+            解决办法：role_id前面加上表名。
+    -->
+    <resultMap id="studentResult" type="Student" autoMapping="true">
+        <!-- 省略Student基本属性的映射，MyBatis设置自动进行映射：autoMapping="true" -->
+        <association property="classroom" column="classroom_id" javaType="Classroom" resultMap="classroomResult"/>
+        <!-- 会自动识别为 List<Parent> -->
+        <collection property="parents" ofType="Parent" resultMap="parentsResult"/>
+    </resultMap>
+
+    <resultMap id="classroomResult" type="Classroom" autoMapping="true">
+    </resultMap>
+
+    <resultMap id="parentsResult" type="Parent" autoMapping="true">
+    </resultMap>
 </mapper>

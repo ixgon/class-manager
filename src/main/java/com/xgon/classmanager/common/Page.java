@@ -80,14 +80,15 @@ public class Page implements Serializable {
         build();
     }
 
-    private Page build() {
+    public Page build() {
         if (null == currentPageNum || null == totalRecords) {
             return null;
         }
 
         totalPages = totalRecords % pageSize == 0
                 ? totalRecords / pageSize : totalRecords / pageSize + 1;
-        startIndex = (currentPageNum - 1) * pageSize;
+
+        buildStartIndex();
 
         if (totalPages > showPageCount) {
             startPageNum = currentPageNum - 2;
@@ -120,6 +121,10 @@ public class Page implements Serializable {
 
     public Integer getCurrentPageNum() {
         return currentPageNum;
+    }
+
+    public void buildStartIndex() {
+        startIndex = (currentPageNum - 1) * pageSize;
     }
 
     public void setCurrentPageNum(Integer currentPageNum) {

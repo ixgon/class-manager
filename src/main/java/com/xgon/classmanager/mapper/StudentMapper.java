@@ -45,7 +45,7 @@ public interface StudentMapper {
     void removeStudent(Student student);
 
     /**
-     * <p>MethodName:&ensp;<strong>page</strong></p>
+     * <p>MethodName:&ensp;<strong>queryStudent</strong></p>
      * <p>Description:&ensp;学生查询</p>
      *
      * @param page    查询分页对象

@@ -1,5 +1,6 @@
 package com.xgon.classmanager.service.impl;
 
+import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Student;
 import com.xgon.classmanager.mapper.StudentMapper;
 import com.xgon.classmanager.service.StudentService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>FileName:&ensp;com.xgon.classmanager.service.impl.<strong>StudentServiceImpl.java</strong></p>
@@ -47,5 +49,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void removeStudent(Student student) {
         studentMapper.removeStudent(student);
+    }
+
+    @Override
+    public List<Student> queryStudent(Page page, Student student) {
+        return studentMapper.queryStudent(page, student);
     }
 }
