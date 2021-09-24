@@ -1,0 +1,19 @@
+### 测试 HTTP Client's HTTP Request（类似于 Postman）【注意这里的注释都是3个#】
+GET http://127.0.0.1:8080/demo/student/test
+Accept: application/json
+
+### 学生新增
+POST http://127.0.0.1:8080/demo/student/addStudent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "account": "admin",
+  "name": "小张",
+  "password": "123456",
+  "sex": "1",
+  "idCard": "372328199905120312",
+  "createTime": "",
+  "updateTime": "",
+  "isDeleted": "0"
+}

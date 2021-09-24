@@ -63,8 +63,9 @@ public enum ResultCode implements Serializable {
         this.data = data;
     }
 
-    public int getCode() {
-        return code;
+    public ResultCode setData(Serializable data) {
+        this.data = data;
+        return this;
     }
 
     @Override
