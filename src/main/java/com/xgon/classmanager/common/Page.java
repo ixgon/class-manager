@@ -80,9 +80,9 @@ public class Page implements Serializable {
         build();
     }
 
-    public Page build() {
+    public void build() {
         if (null == currentPageNum || null == totalRecords) {
-            return null;
+            return;
         }
 
         totalPages = totalRecords % pageSize == 0
@@ -108,7 +108,6 @@ public class Page implements Serializable {
             endPageNum = totalPages;
         }
 
-        return this;
     }
 
     public List<Serializable> getRecords() {

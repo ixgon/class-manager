@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,12 +67,18 @@ public class StudentController {
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
 
-        System.out.println(studentService.queryStudent(page, student));
+        studentService.queryStudent(page, student);
 
-        HashMap<String, Object> data = new HashMap<>(3);
-        data.put("records", 1);
-        data.put("parents", 2);
-        data.put("page", page);
-        return ResultCode.SUCCESS.setData(data);
+        /// HashMap<String, Object> data = new HashMap<>(3);
+        /// data.put("records", page.getRecords());
+        /// data.put("parents", 2);
+        /// data.put("page", page);
+        return ResultCode.SUCCESS.setData(page);
+    }
+
+    @RequestMapping(value = "/addStudentParent", method = RequestMethod.POST)
+    public ResultCode addStudentParent(@RequestBody Student student) {
+        studentService.addStudentParent(student);
+        return ResultCode.SUCCESS;
     }
 }

@@ -7,6 +7,7 @@ import com.xgon.classmanager.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> queryStudent(Page page, Student student) {
-        return studentMapper.queryStudent(page, student);
+    public void queryStudent(Page page, Student student) {
+        page.setRecords(studentMapper.queryStudent(page, student));
+    }
+
+    @Override
+    public void addStudentParent(Student student) {
+        studentMapper.addStudentParent(student);
     }
 }

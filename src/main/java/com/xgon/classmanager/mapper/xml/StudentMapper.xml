@@ -31,36 +31,110 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="queryStudent" resultMap="studentResult">
-        SELECT *
-        FROM students s
-                 JOIN stuclass sc ON s.id = sc.student_id
-                 JOIN classroom c ON c.id = sc.classroom_id
-                 JOIN parents p ON s.id = p.student_id
-        WHERE s.account = #{student.account, jdbcType=VARCHAR}
-          AND s.name = #{student.name, jdbcType=VARCHAR} LIMIT #{page.startIndex}
-            , #{page.pageSize}
-    </select>
     <!-- 不要使用 student.getAccount()，因为getAccount()是其从父类处继承的！
-         account即使是私有属性，mybatis也会通过反射直接访问到。
-        WHERE account = #{student.account, jdbcType=VARCHAR}
-          AND name = #{student.name, jdbcType=VARCHAR} LIMIT #{page.startIndex}
-            , #{page.pageSize}
+     account即使是私有属性，mybatis也会通过反射直接访问到。
+        Java Column ‘xxx‘ in where clause is ambiguous问题解决：
+        多个表都有role_id字段，但是没指定role_id是位于哪个表。
+        解决办法：role_id前面加上表名。
 
-            Java Column ‘xxx‘ in where clause is ambiguous问题解决：
-            多个表都有role_id字段，但是没指定role_id是位于哪个表。
-            解决办法：role_id前面加上表名。
+        由于学生表和家长表等多个表都具有同名字段，为了在进行关联的嵌套结果映射时不会被混淆（混淆会产生错误的映射、错误的结果集），
+        需要为每个表的字段设置别名，这就需要我们手动的列出每个涉及到的字段 或 仅仅是涉及到的同名字段(比如只有学生表有id_card字段，就无须再为该字段设置别名)
     -->
-    <resultMap id="studentResult" type="Student" autoMapping="true">
-        <!-- 省略Student基本属性的映射，MyBatis设置自动进行映射：autoMapping="true" -->
-        <association property="classroom" column="classroom_id" javaType="Classroom" resultMap="classroomResult"/>
+    <select id="queryStudent" resultMap="detailedStudentResult">
+        SELECT
+        <include refid="detailedColumnsDivision">
+            <property name="student" value="s"/>
+            <property name="stuclass" value="sc"/>
+            <property name="classroom" value="c"/>
+            <property name="parents" value="p"/>
+        </include>
+        FROM students s
+        JOIN stuclass sc ON sc.student_id = s.id
+        JOIN classroom c ON c.id = sc.classroom_id
+        JOIN parents p ON p.student_id = s.id
+        <trim prefix="WHERE" suffixOverrides="AND | OR">
+            <if test="student != null">
+                <!-- test="student != null and student.account != null" -->
+                <if test="student.account != null">
+                    s.account = #{student.account, jdbcType=VARCHAR} AND
+                    <if test="student.name != null">s.name = #{student.name, jdbcType=VARCHAR}</if>
+                </if>
+            </if>
+        </trim>
+        LIMIT #{page.startIndex} , #{page.pageSize}
+    </select>
+
+    <sql id="detailedColumnsDivision">
+        ${student}.id AS ${student}_id,
+        ${student}.account AS ${student}_account,
+        ${student}.password AS ${student}_password,
+        ${student}.name AS ${student}_name,
+        ${student}.sex AS ${student}_sex,
+        ${student}.create_time AS ${student}_create_time,
+        ${student}.update_time AS ${student}_update_time,
+        ${student}.is_deleted as ${student}_is_deleted,
+        ${stuclass}.id AS ${stuclass}_id,
+        ${stuclass}.student_id AS ${stuclass}_student_id,
+        ${stuclass}.classroom_id AS ${stuclass}_classroom_id,
+        ${classroom}.id as ${classroom}_id,
+        ${classroom}.name as ${classroom}_name,
+        ${classroom}.create_time AS ${classroom}_create_time,
+        ${classroom}.update_time AS ${classroom}_update_time,
+        ${classroom}.is_deleted as ${classroom}_is_deleted,
+        ${parents}.id AS ${parents}_id,
+        ${parents}.account AS ${parents}_account,
+        ${parents}.password AS ${parents}_password,
+        ${parents}.name AS ${parents}_name,
+        ${parents}.student_id AS ${parents}_student_id,
+        ${parents}.sex AS ${parents}_sex,
+        ${parents}.create_time AS ${parents}_create_time,
+        ${parents}.update_time AS ${parents}_update_time,
+        ${parents}.is_deleted as ${parents}_is_deleted
+    </sql>
+
+    <!-- 省略Student基本属性的映射，MyBatis设置自动进行映射：autoMapping="true"， 比如这里的 id_card将自动映射idCard -->
+    <resultMap id="detailedStudentResult" type="Student" autoMapping="true">
+        <id property="id" column="s_id"/>
+        <result property="account" column="s_account"/>
+        <result property="password" column="s_password"/>
+        <result property="name" column="s_name"/>
+        <result property="sex" column="s_sex"/>
+        <result property="createTime" column="s_create_time"/>
+        <result property="updateTime" column="s_update_time"/>
+        <result property="isDeleted" column="s_is_deleted"/>
+        <association property="classroom" column="sc_classroom_id" javaType="Classroom" resultMap="classroomResult"/>
         <!-- 会自动识别为 List<Parent> -->
-        <collection property="parents" ofType="Parent" resultMap="parentsResult"/>
+        <collection property="parents" column="s_id" ofType="Parent" resultMap="parentsResult"/>
     </resultMap>
 
     <resultMap id="classroomResult" type="Classroom" autoMapping="true">
+        <id property="id" column="c_id"/>
+        <result property="name" column="c_name"/>
+        <result property="createTime" column="c_create_time"/>
+        <result property="updateTime" column="c_update_time"/>
+        <result property="isDeleted" column="c_is_deleted"/>
     </resultMap>
 
     <resultMap id="parentsResult" type="Parent" autoMapping="true">
+        <id property="id" column="p_id"/>
+        <result property="account" column="p_account"/>
+        <result property="password" column="p_password"/>
+        <result property="name" column="p_name"/>
+        <result property="studentId" column="p_student_id"/>
+        <result property="sex" column="p_sex"/>
+        <result property="createTime" column="p_create_time"/>
+        <result property="updateTime" column="p_update_time"/>
+        <result property="isDeleted" column="p_is_deleted"/>
     </resultMap>
+
+    <update id="addStudentParent" parameterType="Student">
+        <if test="#{0} != null and parents != null">
+            UPDATE parents p
+            SET student_id = #{id}
+            WHERE p.id IN
+            <foreach collection="parents" item="item" index="index" open="(" close=")" separator=",">
+                #{item.id}
+            </foreach>
+        </if>
+    </update>
 </mapper>

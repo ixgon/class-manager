@@ -44,7 +44,19 @@ Content-Type: application/json
   "isDeleted": "1"
 }
 
-### 学生查询
+### 学生查询（1）
+POST http://127.0.0.1:8080/demo/student/page
+Content-Type: application/json
+Accept: application/json
+Content-Type: application/json
+
+{
+  "size": 10,
+  "current": 1,
+  "data": {}
+}
+
+### 学生查询（2）
 POST http://127.0.0.1:8080/demo/student/page
 Accept: application/json
 Content-Type: application/json
@@ -56,4 +68,21 @@ Content-Type: application/json
     "account": "333333",
     "name": "王五"
   }
+}
+
+### 学生关联家长
+POST http://127.0.0.1:8080/demo/student/addStudentParent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "101062",
+  "parents": [
+    {
+      "id": "301062"
+    },
+    {
+      "id": "401062"
+    }
+  ]
 }

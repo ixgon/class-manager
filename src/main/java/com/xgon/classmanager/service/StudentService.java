@@ -1,10 +1,9 @@
 package com.xgon.classmanager.service;
 
-import com.xgon.classmanager.api.ResultCode;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Student;
-import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +47,14 @@ public interface StudentService {
      *
      * @param page    查询分页对象
      * @param student 学生（部分）信息
-     * @return java.util.List<com.xgon.classmanager.entity.Student> 查询结果集合
      */
-    List<Student> queryStudent(Page page, Student student);
+    void queryStudent(Page page, Student student);
+
+    /**
+     * <p>MethodName:&ensp;<strong>addStudentParent</strong></p>
+     * <p>Description:&ensp;学生关联家长</p>
+     *
+     * @param student 学生（部分）信息
+     */
+    void addStudentParent(Student student);
 }
