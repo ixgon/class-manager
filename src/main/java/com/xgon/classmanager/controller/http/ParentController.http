@@ -4,8 +4,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "account": "admin",
-  "name": "小张",
+  "account": "044440",
+  "name": "太父",
   "password": "123456",
   "sex": "1",
   "phone": "18845623216",
@@ -20,11 +20,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
-  "account": "admin",
-  "name": "小石",
+  "id": "1101067",
+  "account": "144440",
+  "name": "太母",
   "password": "123456",
-  "sex": "1",
+  "sex": "2",
   "phone": "18845623216",
   "updateTime": "",
   "isDeleted": "0"
@@ -36,7 +36,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
+  "id": "1101067",
   "isDeleted": "1"
 }
 
@@ -61,7 +61,7 @@ Content-Type: application/json
   "size": 10,
   "current": 1,
   "data": {
-    "account": "333333",
-    "name": "王五"
+    "account": "033330",
+    "name": "王父"
   }
 }

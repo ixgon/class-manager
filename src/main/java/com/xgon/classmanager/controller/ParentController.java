@@ -40,13 +40,13 @@ public class ParentController {
         return ResultCode.SUCCESS.setData("添加信息成功");
     }
 
-    @PostMapping("/editStudent")
-    public ResultCode editStudent(@RequestBody Parent parent) {
+    @PostMapping("/editParent")
+    public ResultCode editParent(@RequestBody Parent parent) {
         parentService.editParent(parent);
         return ResultCode.SUCCESS.setData("修改信息成功");
     }
 
-    @PostMapping("/removeStudent")
+    @PostMapping("/removeParent")
     public ResultCode removeStudent(@RequestBody Parent parent) {
         parentService.removeParent(parent);
         return ResultCode.SUCCESS.setData("移除信息成功");
@@ -59,17 +59,12 @@ public class ParentController {
         page.setCurrentPageNum((Integer) models.get("current"));
         page.buildStartIndex();
 
-        // models.get("data") 返回的对象的类型是 LinkedHashMap 类型的，将LinkedHashMap对象转换成json，在将json转换成Student对象
         Parent parent = new ObjectMapper()
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
 
         parentService.queryParent(page, parent);
 
-        /// HashMap<String, Object> data = new HashMap<>(3);
-        /// data.put("records", page.getRecords());
-        /// data.put("parents", 2);
-        /// data.put("page", page);
         return ResultCode.SUCCESS.setData(page);
     }
 }

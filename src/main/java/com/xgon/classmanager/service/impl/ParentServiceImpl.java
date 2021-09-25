@@ -2,7 +2,9 @@ package com.xgon.classmanager.service.impl;
 
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Parent;
+import com.xgon.classmanager.mapper.ParentMapper;
 import com.xgon.classmanager.service.ParentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,24 +17,30 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ParentServiceImpl implements ParentService {
+    private ParentMapper parentMapper;
+
+    @Autowired
+    public void setParentMapper(ParentMapper parentMapper) {
+        this.parentMapper = parentMapper;
+    }
 
     @Override
     public void addParent(Parent parent) {
-
+        parentMapper.addParent(parent);
     }
 
     @Override
     public void editParent(Parent parent) {
-
+        parentMapper.editParent(parent);
     }
 
     @Override
     public void removeParent(Parent parent) {
-
+        parentMapper.removeParent(parent);
     }
 
     @Override
     public void queryParent(Page page, Parent parent) {
-
+        page.setRecords(parentMapper.queryParent(page, parent));
     }
 }

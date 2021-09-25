@@ -40,7 +40,8 @@ public class StudentServiceImpl implements StudentService {
         /// String nowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         /// student.setUpdateTime(nowStr);
 
-        studentMapper.editStudent(student);
+        // 打印修改操作影响的记录的条数
+        System.out.println(studentMapper.editStudent(student));
     }
 
     @Override

@@ -8,7 +8,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "account": "444444",
+  "account": "555555",
   "name": "太宰",
   "password": "123456",
   "sex": "1",
@@ -24,7 +24,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "101064",
+  "id": "101065",
   "account": "admin",
   "name": "小石",
   "password": "123456",
@@ -40,7 +40,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "101064",
+  "id": "101065",
   "isDeleted": "1"
 }
 

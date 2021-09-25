@@ -56,6 +56,7 @@ CREATE TABLE stuparent
     id         INT PRIMARY KEY AUTO_INCREMENT COMMENT '学生-家长id（没有实际意义的id，作为有序的主键构建B+树，用于替代 学生id+班级id 唯一代表一条记录）',
     student_id INT NOT NULL COMMENT '学生id',
     parent_id  INT NOT NULL COMMENT '家长id',
+    UNIQUE INDEX (student_id, parent_id),
     FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
     FOREIGN KEY (parent_id) REFERENCES parents (id) ON DELETE CASCADE -- 级联删除
 ) ENGINE INNODB
@@ -86,6 +87,7 @@ CREATE TABLE stuclass
     id           INT PRIMARY KEY AUTO_INCREMENT COMMENT '学生-班级id',
     student_id   INT NOT NULL COMMENT '学生id', -- 过去（唯一主键）：student_id   INT NOT NULL UNIQUE COMMENT '学生id',
     classroom_id INT NOT NULL COMMENT '班级id',
+    UNIQUE INDEX (student_id, classroom_id),
     FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
     FOREIGN KEY (classroom_id) REFERENCES classroom (id) ON DELETE CASCADE
 ) ENGINE INNODB
@@ -97,7 +99,8 @@ CREATE TABLE stuclass
 INSERT INTO students (id, account, password, name, sex, id_card, create_time, update_time, is_deleted)
 VALUES (101061, '111111', '123456', '张三', '1', '325412197007055415', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
        (101062, '222222', '123456', '李四', '1', '325412197007055416', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (101063, '333333', '123456', '王五', '1', '325412197007055417', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
+       (101063, '333333', '123456', '王五', '1', '325412197007055417', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0'),
+       (101064, '444444', '123456', '王六', '1', '325412197007055418', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
 
 UPDATE students
 SET account = 'admin',
@@ -107,7 +110,7 @@ WHERE id = 1;
 INSERT INTO parents (id, account, password, name, phone, sex, create_time, update_time, is_deleted)
 VALUES (1101061, '011110', '123456', '张父', '17860529500', '1', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
        (1101062, '022220', '123456', '李父', '17860529501', '1', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (1101063, '022230', '123456', '李母', '17860529521', '1', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
+       (1101063, '022230', '123456', '李母', '17860529521', '2', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
        (1101064, '022240', '123456', '李义父', '17860529531', '1', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
        (1101065, '033330', '123456', '王父', '17860529502', '1', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0'),
        (1101066, '033331', '123456', '王母', '17860529503', '2', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
@@ -116,9 +119,11 @@ INSERT INTO stuparent (id, student_id, parent_id)
 VALUES (1, 101061, 1101061),
        (2, 101062, 1101062),
        (3, 101063, 1101065),
-       (4, 101063, 1101066)
--- ,(5, 101062, 1101063),
--- (6, 101062, 1101064)
+       (4, 101063, 1101066),
+       (5, 101064, 1101065),
+       (6, 101064, 1101066)
+-- ,(7, 101062, 1101063),
+-- (8, 101062, 1101064)
 ;
 
 INSERT INTO classroom (id, name, year, create_time, update_time, is_deleted)

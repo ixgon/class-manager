@@ -3,6 +3,10 @@ package com.xgon.classmanager.mapper;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Parent;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>FileName:&ensp;com.xgon.classmanager.mapper.<strong>ParentMapper.java</strong></p>
@@ -43,8 +47,9 @@ public interface ParentMapper {
      * <p>MethodName:&ensp;<strong>queryParent</strong></p>
      * <p>Description:&ensp;家长查询</p>
      *
-     * @param page    查询分页对象
+     * @param page 查询分页对象
      * @param parent 家长（部分）信息
+     * @return java.util.List<java.io.Serializable> 查询结果集合
      */
-    void queryParent(Page page, Parent parent);
+    List<Serializable> queryParent(@Param("page") Page page, @Param("parent") Parent parent);
 }

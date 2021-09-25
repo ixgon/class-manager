@@ -16,7 +16,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Parent extends Person implements Serializable {
     private String phone;
-    private String studentId;
     private List<Student> students;
 
     public String getPhone() {
@@ -27,12 +26,12 @@ public class Parent extends Person implements Serializable {
         this.phone = phone;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     @Override
@@ -43,11 +42,11 @@ public class Parent extends Person implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
-                ", studentId='" + studentId + '\'' +
                 ", sex=" + sex +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", isDeleted=" + isDeleted +
+                ", students=" + students +
                 '}';
     }
 }

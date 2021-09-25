@@ -6,7 +6,98 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
 
-        INSERT INTO students(account, password, name, sex, id_card, create_time, update_time, is_deleted)
-        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{createTime}, #{updateTime}, #{isDeleted})
+        INSERT INTO parents(account, password, name, phone, sex, is_deleted)
+        VALUES (#{account}, #{password}, #{name}, #{phone},#{sex}, #{isDeleted})
     </insert>
+
+    <update id="editParent" parameterType="Parent">
+        UPDATE parents
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="account != null">account = #{account},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <!-- <if test="updateTime != null">update_time = #{updateTime},</if> -->
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="removeParent" parameterType="Parent">
+        UPDATE parents
+        <trim prefix="SET">
+            <if test="isDeleted == 1">is_deleted = #{isDeleted}</if>
+        </trim>
+        WHERE id = #{id}
+    </delete>
+
+    <select id="queryParent" resultMap="detailedParentResult">
+        SELECT
+        <include refid="detailedColumnsDivision">
+            <property name="student" value="s"/>
+            <property name="stuparent" value="sp"/>
+            <property name="parents" value="p"/>
+        </include>
+        FROM parents p
+        LEFT OUTER JOIN stuparent sp ON sp.parent_id = p.id
+        LEFT OUTER JOIN students s ON s.id = sp.student_id
+        <trim prefix="WHERE" suffixOverrides="AND | OR">
+            <if test="parent != null">
+                <if test="parent.account != null">
+                    p.account = #{parent.account, jdbcType=VARCHAR} AND
+                    <if test="parent.name != null">p.name = #{parent.name, jdbcType=VARCHAR}</if>
+                </if>
+            </if>
+        </trim>
+        LIMIT #{page.startIndex} , #{page.pageSize}
+    </select>
+
+    <sql id="detailedColumnsDivision">
+        ${student}.id AS ${student}_id,
+        ${student}.account AS ${student}_account,
+        ${student}.password AS ${student}_password,
+        ${student}.name AS ${student}_name,
+        ${student}.sex AS ${student}_sex,
+        ${student}.id_card AS ${student}_id_card,
+        ${student}.create_time AS ${student}_create_time,
+        ${student}.update_time AS ${student}_update_time,
+        ${student}.is_deleted AS ${student}_is_deleted,
+        ${stuparent}.student_id AS ${stuparent}_student_id,
+        ${stuparent}.parent_id AS ${stuparent}_parent_id,
+        ${parents}.id AS ${parents}_id,
+        ${parents}.account AS ${parents}_account,
+        ${parents}.password AS ${parents}_password,
+        ${parents}.name AS ${parents}_name,
+        ${parents}.phone AS ${parents}_phone,
+        ${parents}.sex AS ${parents}_sex,
+        ${parents}.create_time AS ${parents}_create_time,
+        ${parents}.update_time AS ${parents}_update_time,
+        ${parents}.is_deleted AS ${parents}_is_deleted
+    </sql>
+
+    <resultMap id="detailedParentResult" type="Parent">
+        <id property="id" column="p_id"/>
+        <result property="account" column="p_account"/>
+        <result property="password" column="p_password"/>
+        <result property="name" column="p_name"/>
+        <result property="phone" column="p_phone"/>
+        <result property="sex" column="p_sex"/>
+        <result property="createTime" column="p_create_time"/>
+        <result property="updateTime" column="p_update_time"/>
+        <result property="isDeleted" column="p_is_deleted"/>
+        <collection property="students" column="sp.student_id" ofType="Student" resultMap="studentsResult"/>
+    </resultMap>
+
+    <resultMap id="studentsResult" type="Student">
+        <id property="id" column="s_id"/>
+        <result property="account" column="s_account"/>
+        <result property="password" column="s_password"/>
+        <result property="name" column="s_name"/>
+        <result property="sex" column="s_sex"/>
+        <result property="idCard" column="s_id_card"/>
+        <result property="createTime" column="s_create_time"/>
+        <result property="updateTime" column="s_update_time"/>
+        <result property="isDeleted" column="s_is_deleted"/>
+    </resultMap>
 </mapper>

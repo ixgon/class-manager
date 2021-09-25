@@ -16,9 +16,11 @@
         UPDATE students
         <trim prefix="SET" suffixOverrides=",">
             <if test="account != null">account = #{account},</if>
+            <if test="password != null">password = #{password},</if>
             <if test="name != null">name = #{name},</if>
             <if test="sex != null">sex = #{sex},</if>
             <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
             <!-- <if test="updateTime != null">update_time = #{updateTime},</if> -->
         </trim>
         WHERE id = #{id}
@@ -47,8 +49,8 @@
             <property name="student" value="s"/>
             <property name="stuclass" value="sc"/>
             <property name="classroom" value="c"/>
-            <property name="parents" value="p"/>
             <property name="stuparent" value="sp"/>
+            <property name="parents" value="p"/>
         </include>
         FROM students s
         LEFT OUTER JOIN stuclass sc ON sc.student_id = s.id
@@ -99,6 +101,7 @@
         ${parents}.is_deleted AS ${parents}_is_deleted
     </sql>
 
+    <!-- 自动识别为一个Student对象，或一个集合List<Student> -->
     <resultMap id="detailedStudentResult" type="Student">
         <id property="id" column="s_id"/>
         <result property="account" column="s_account"/>
@@ -111,8 +114,12 @@
         <result property="isDeleted" column="s_is_deleted"/>
         <!-- <association property="classroom" column="sc_classroom_id" javaType="Classroom" resultMap="classroomResult"/> -->
         <collection property="classrooms" column="sc_classroom_id" ofType="Classroom" resultMap="classroomsResult"/>
-        <!-- 会自动识别为 List<Parent> -->
-        <collection property="parents" column="s_id" ofType="Parent" resultMap="parentsResult"/>
+        <!-- 会自动识别为 List<Parent>, column是sp.parent_id 或 s_id：
+                 LEFT OUTER JOIN stuparent sp ON sp.student_id = s.id
+                 LEFT OUTER JOIN parents p ON p.id = sp.parent_id
+            还要注意 Student对象中的List<Parent>类型的属性要有相应的getter和setter，mybatis填充时需要用到！
+        -->
+        <collection property="parents" column="sp.parent_id" ofType="Parent" resultMap="parentsResult"/>
     </resultMap>
 
     <resultMap id="classroomsResult" type="Classroom">

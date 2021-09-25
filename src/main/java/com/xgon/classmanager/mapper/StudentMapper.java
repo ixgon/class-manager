@@ -33,8 +33,9 @@ public interface StudentMapper {
      * <p>Description:&ensp;学生修改</p>
      *
      * @param student 学生信息
+     * @return int 修改操作影响的记录数
      */
-    void editStudent(Student student);
+    int editStudent(Student student);
 
     /**
      * <p>MethodName:&ensp;<strong>removeStudent</strong></p>
