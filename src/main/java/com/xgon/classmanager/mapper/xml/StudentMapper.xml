@@ -7,8 +7,9 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
 
-        INSERT INTO students(account, password, name, sex, id_card, create_time, update_time, is_deleted)
-        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{createTime}, #{updateTime}, #{isDeleted})
+        <!-- 注意这里并对设置create_time, update_time，因为为它们在数据库端设置了自动填充行为 CURRENT_TIMESTAMP-->
+        INSERT INTO students(account, password, name, sex, id_card, is_deleted)
+        VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{isDeleted})
     </insert>
 
     <update id="editStudent" parameterType="Student">
@@ -18,7 +19,7 @@
             <if test="name != null">name = #{name},</if>
             <if test="sex != null">sex = #{sex},</if>
             <if test="idCard != null">id_card = #{idCard},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <!-- <if test="updateTime != null">update_time = #{updateTime},</if> -->
         </trim>
         WHERE id = #{id}
     </update>
@@ -148,12 +149,15 @@
     </update>
     -->
     <insert id="addStudentParent" parameterType="Student">
+        <!--
         <if test="#{0} != null and parents != null">
-            INSERT INTO stuparent(student_id, parent_id)
-            VALUES
-            <foreach collection="parents" item="item" index="index" open="(" close=")" separator=",">
-                #{id}, #{item.id}
-            </foreach>
         </if>
+        -->
+        INSERT INTO stuparent(student_id, parent_id)
+        VALUES
+        <foreach collection="parents" item="item" index="index" separator=",">
+            (#{id}, #{item.id})
+        </foreach>
+
     </insert>
 </mapper>

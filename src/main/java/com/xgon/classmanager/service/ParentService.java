@@ -2,8 +2,6 @@ package com.xgon.classmanager.service;
 
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Parent;
-import com.xgon.classmanager.entity.Student;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>FileName:&ensp;com.xgon.classmanager.service.<strong>ParentService.java</strong></p>
@@ -13,9 +11,7 @@ import org.springframework.stereotype.Service;
  * @author <a href="mail to: laoshi1998@outlook.com" rel="nofollow">xgon</a>
  * @version 1.0.0
  */
-@Service
 public interface ParentService {
-
 
     /**
      * <p>MethodName:&ensp;<strong>addParent</strong></p>

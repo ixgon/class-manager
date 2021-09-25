@@ -60,11 +60,11 @@ public class ParentController {
         page.buildStartIndex();
 
         // models.get("data") 返回的对象的类型是 LinkedHashMap 类型的，将LinkedHashMap对象转换成json，在将json转换成Student对象
-        Student student = new ObjectMapper()
+        Parent parent = new ObjectMapper()
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
 
-        studentService.queryStudent(page, student);
+        parentService.queryParent(page, parent);
 
         /// HashMap<String, Object> data = new HashMap<>(3);
         /// data.put("records", page.getRecords());
