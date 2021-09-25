@@ -7,10 +7,7 @@ import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Student;
 import com.xgon.classmanager.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -32,31 +29,31 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @GetMapping("/test")
     public ResultCode test() {
         System.out.println(1);
         return ResultCode.SUCCESS;
     }
 
-    @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
+    @PostMapping("/addStudent")
     public ResultCode addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
         return ResultCode.SUCCESS.setData("添加信息成功");
     }
 
-    @RequestMapping(value = "/editStudent", method = RequestMethod.POST)
+    @PostMapping("/editStudent")
     public ResultCode editStudent(@RequestBody Student student) {
         studentService.editStudent(student);
         return ResultCode.SUCCESS.setData("修改信息成功");
     }
 
-    @RequestMapping(value = "/removeStudent", method = RequestMethod.POST)
+    @PostMapping("/removeStudent")
     public ResultCode removeStudent(@RequestBody Student student) {
         studentService.removeStudent(student);
         return ResultCode.SUCCESS.setData("移除信息成功");
     }
 
-    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    @PostMapping("/page")
     public ResultCode page(@RequestBody Map<String, Object> models) {
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
@@ -77,7 +74,7 @@ public class StudentController {
         return ResultCode.SUCCESS.setData(page);
     }
 
-    @RequestMapping(value = "/addStudentParent", method = RequestMethod.POST)
+    @PostMapping("/addStudentParent")
     public ResultCode addStudentParent(@RequestBody Student student) {
         studentService.addStudentParent(student);
         return ResultCode.SUCCESS.setData("学生关联家长成功");
