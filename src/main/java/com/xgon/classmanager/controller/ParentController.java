@@ -25,7 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/parent")
 public class ParentController {
-
     private ParentService parentService;
 
     @Autowired

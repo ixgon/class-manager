@@ -1,3 +1,4 @@
+-- 将 students表 变为 student表，parents表同理。
 SHOW DATABASES;
 -- 通过cmd登录数据库管理界面后，创建数据库 school
 CREATE DATABASE IF NOT EXISTS school;
@@ -78,7 +79,7 @@ CREATE TABLE classroom
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
   COLLATE utf8mb4_unicode_ci
-  AUTO_INCREMENT 1 COMMENT '班级信息表';
+  AUTO_INCREMENT 0001 COMMENT '班级信息表';
 
 -- 创建学生-班级表（过去：一个学生只有一个班级，一个班级可以有多个学生；现在：一个学生可以从属于多个班级，一个班级可以有多个学生）
 DROP TABLE IF EXISTS stuclass;
@@ -146,3 +147,8 @@ FROM students s
          LEFT OUTER JOIN stuparent sp ON sp.student_id = s.id
          LEFT OUTER JOIN parents p ON p.id = sp.parent_id -- 通过父母id获取家长信息（双向关系：一对一）
 LIMIT 0, 2;
+
+SELECT *
+FROM classroom c
+         LEFT OUTER JOIN stuclass sc ON sc.classroom_id = c.id
+         LEFT OUTER JOIN students s ON s.id = sc.student_id;

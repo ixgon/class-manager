@@ -44,7 +44,6 @@ Content-Type: application/json
 POST http://127.0.0.1:8080/demo/parent/page
 Content-Type: application/json
 Accept: application/json
-Content-Type: application/json
 
 {
   "size": 10,

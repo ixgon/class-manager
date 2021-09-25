@@ -19,7 +19,6 @@
             <if test="phone != null">phone = #{phone},</if>
             <if test="sex != null">sex = #{sex},</if>
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
-            <!-- <if test="updateTime != null">update_time = #{updateTime},</if> -->
         </trim>
         WHERE id = #{id}
     </update>

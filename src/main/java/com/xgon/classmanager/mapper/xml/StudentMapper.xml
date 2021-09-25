@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xgon.classmanager.mapper.StudentMapper">
+    <!-- https://mybatis.org/mybatis-3/zh/sqlmap-xml.html -->
     <insert id="addStudent" parameterType="Student">
         <!-- 配置插入数据时，获取所插入记录的 id -->
         <selectKey keyProperty="id" resultType="Integer" order="AFTER">
@@ -165,6 +166,5 @@
         <foreach collection="parents" item="item" index="index" separator=",">
             (#{id}, #{item.id})
         </foreach>
-
     </insert>
 </mapper>

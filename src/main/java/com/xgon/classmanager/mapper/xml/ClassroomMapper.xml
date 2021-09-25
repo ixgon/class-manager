@@ -1,4 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xgon.classmanager.mapper.ClassroomMapper">
+    <insert id="addClassroom" parameterType="Classroom">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO classroom(name, year, is_deleted)
+        VALUES (#{name}, #{year}, #{isDeleted})
+    </insert>
+
+    <update id="editClassroom" parameterType="Classroom">
+        UPDATE classroom
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="year != null">year = #{year},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="removeClassroom" parameterType="Classroom">
+        UPDATE classroom
+        <trim prefix="SET">
+            <if test="isDeleted == 1">is_deleted = #{isDeleted}</if>
+        </trim>
+        WHERE id = #{id}
+    </delete>
+
+    <select id="queryClassroom" resultMap="detailedClassroomResult">
+        SELECT
+        <include refid="detailedColumnsDivision">
+            <property name="student" value="s"/>
+            <property name="stuclass" value="sc"/>
+            <property name="classroom" value="c"/>
+        </include>
+        FROM classroom c
+        LEFT OUTER JOIN stuclass sc ON sc.classroom_id = c.id
+        LEFT OUTER JOIN students s ON s.id = sc.student_id
+        <trim prefix="WHERE" suffixOverrides="AND | OR">
+            <if test="classroom != null">
+                <if test="classroom.name != null">
+                    c.name = #{classroom.name, jdbcType=VARCHAR} AND
+                    <if test="classroom.year != null">c.year = #{classroom.year, jdbcType=VARCHAR}</if>
+                </if>
+            </if>
+        </trim>
+        LIMIT #{page.startIndex} , #{page.pageSize}
+    </select>
+
+    <sql id="detailedColumnsDivision">
+        ${student}.id AS ${student}_id,
+        ${student}.account AS ${student}_account,
+        ${student}.password AS ${student}_password,
+        ${student}.name AS ${student}_name,
+        ${student}.sex AS ${student}_sex,
+        ${student}.id_card AS ${student}_id_card,
+        ${student}.create_time AS ${student}_create_time,
+        ${student}.update_time AS ${student}_update_time,
+        ${student}.is_deleted AS ${student}_is_deleted,
+        ${stuclass}.student_id AS ${stuclass}_student_id,
+        ${stuclass}.classroom_id AS ${stuclass}_classroom_id,
+        ${classroom}.id AS ${classroom}_id,
+        ${classroom}.name AS ${classroom}_name,
+        ${classroom}.year AS ${classroom}_year,
+        ${classroom}.create_time AS ${classroom}_create_time,
+        ${classroom}.update_time AS ${classroom}_update_time,
+        ${classroom}.is_deleted AS ${classroom}_is_deleted
+    </sql>
+
+    <resultMap id="detailedClassroomResult" type="Classroom">
+        <id property="id" column="c_id"/>
+        <result property="name" column="c_name"/>
+        <result property="year" column="c_year"/>
+        <result property="createTime" column="c_create_time"/>
+        <result property="updateTime" column="c_update_time"/>
+        <result property="isDeleted" column="c_is_deleted"/>
+        <collection property="students" column="sc.student_id" ofType="Student" resultMap="studentsResult"/>
+    </resultMap>
+
+    <resultMap id="studentsResult" type="Student">
+        <id property="id" column="s_id"/>
+        <result property="account" column="s_account"/>
+        <result property="password" column="s_password"/>
+        <result property="name" column="s_name"/>
+        <result property="sex" column="s_sex"/>
+        <result property="idCard" column="s_id_card"/>
+        <result property="createTime" column="s_create_time"/>
+        <result property="updateTime" column="s_update_time"/>
+        <result property="isDeleted" column="s_is_deleted"/>
+    </resultMap>
+
+    <insert id="addClassroomStudent" parameterType="Classroom">
+        INSERT INTO stuclass(classroom_id, student_id)
+        VALUES
+        <foreach collection="students" item="item" index="index" separator=",">
+            (#{id}, #{item.id})
+        </foreach>
+    </insert>
 </mapper>

@@ -4,8 +4,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "一班",
-  "year": "2020级",
+  "name": "四班",
+  "year": "2000级",
   "createTime": "",
   "updateTime": "",
   "isDeleted": "0"
@@ -17,9 +17,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
-  "name": "一班",
-  "year": "2020级",
+  "id": "0004",
+  "name": "三班",
+  "year": "2017级",
   "createTime": "",
   "updateTime": "",
   "isDeleted": "0"
@@ -31,7 +31,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
+  "id": "0004",
   "isDeleted": "1"
 }
 
@@ -39,7 +39,6 @@ Content-Type: application/json
 POST http://127.0.0.1:8080/demo/classroom/page
 Content-Type: application/json
 Accept: application/json
-Content-Type: application/json
 
 {
   "size": 10,
@@ -67,13 +66,13 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
-  "parents": [
+  "id": "0004",
+  "students": [
     {
-      "id": "301062"
+      "id": "101061"
     },
     {
-      "id": "401062"
+      "id": "101062"
     }
   ]
 }
