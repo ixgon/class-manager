@@ -3,6 +3,7 @@ package com.xgon.classmanager.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>FileName:&ensp;com.xgon.classmanager.entity.<strong>Parent.java</strong></p>
@@ -16,6 +17,7 @@ import java.io.Serializable;
 public class Parent extends Person implements Serializable {
     private String phone;
     private String studentId;
+    private List<Student> students;
 
     public String getPhone() {
         return phone;

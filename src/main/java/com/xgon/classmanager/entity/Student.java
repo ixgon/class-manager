@@ -16,7 +16,11 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Student extends Person implements Serializable {
     private String idCard;
-    private Classroom classroom;
+    /**
+     * <p>Description:&ensp;过去一个学生只能对应一个班级，现在一个学生可以从属于多个班级</p>
+     * <b>过去： {@code private Classroom classroom}</b>
+     */
+    private List<Classroom> classrooms;
     private List<Parent> parents;
 
     public Student() {
@@ -30,12 +34,12 @@ public class Student extends Person implements Serializable {
         this.idCard = idCard;
     }
 
-    public Classroom getClassroom() {
-        return classroom;
+    public List<Classroom> getClassroom() {
+        return classrooms;
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
+    public void setClassroom(List<Classroom> classrooms) {
+        this.classrooms = classrooms;
     }
 
     public List<Parent> getParents() {
@@ -58,7 +62,7 @@ public class Student extends Person implements Serializable {
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", isDeleted=" + isDeleted +
-                ", classroom=" + classroom +
+                ", classroom=" + classrooms +
                 ", parents=" + parents +
                 '}';
     }

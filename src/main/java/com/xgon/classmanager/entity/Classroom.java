@@ -1,6 +1,10 @@
 package com.xgon.classmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>FileName:&ensp;com.xgon.classmanager.entity.<strong>Classroom.java</strong></p>
@@ -10,7 +14,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author <a href="mail to: laoshi1998@outlook.com" rel="nofollow">xgon</a>
  * @version 1.0.0
  */
-public class Classroom {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Classroom implements Serializable {
+    private static final long serialVersionUID = 42L;
+
     private Integer id;
     /**
      * <p>Description:&ensp;班级名称</p>
@@ -24,6 +31,7 @@ public class Classroom {
     private String updateTime;
     @JsonProperty(value = "isDeleted")
     private Integer isDeleted;
+    private List<Student> students;
 
     public Integer getId() {
         return id;
@@ -71,5 +79,26 @@ public class Classroom {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    @Override
+    public String toString() {
+        return "Classroom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", year='" + year + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", students=" + students +
+                '}';
     }
 }

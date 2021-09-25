@@ -41,19 +41,19 @@ public class StudentController {
     @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
     public ResultCode addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
-        return ResultCode.SUCCESS.setData(1);
+        return ResultCode.SUCCESS.setData("添加信息成功");
     }
 
     @RequestMapping(value = "/editStudent", method = RequestMethod.POST)
     public ResultCode editStudent(@RequestBody Student student) {
         studentService.editStudent(student);
-        return ResultCode.SUCCESS.setData(student);
+        return ResultCode.SUCCESS.setData("修改信息成功");
     }
 
     @RequestMapping(value = "/removeStudent", method = RequestMethod.POST)
     public ResultCode removeStudent(@RequestBody Student student) {
         studentService.removeStudent(student);
-        return ResultCode.SUCCESS.setData(student);
+        return ResultCode.SUCCESS.setData("移除信息成功");
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.POST)
@@ -63,6 +63,7 @@ public class StudentController {
         page.setCurrentPageNum((Integer) models.get("current"));
         page.buildStartIndex();
 
+        // models.get("data") 返回的对象的类型是 LinkedHashMap 类型的，将LinkedHashMap对象转换成json，在将json转换成Student对象
         Student student = new ObjectMapper()
                 .convertValue(models.get("data"), new TypeReference<>() {
                 });
@@ -79,6 +80,6 @@ public class StudentController {
     @RequestMapping(value = "/addStudentParent", method = RequestMethod.POST)
     public ResultCode addStudentParent(@RequestBody Student student) {
         studentService.addStudentParent(student);
-        return ResultCode.SUCCESS;
+        return ResultCode.SUCCESS.setData("学生关联家长成功");
     }
 }

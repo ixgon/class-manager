@@ -8,11 +8,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "account": "admin",
-  "name": "小张",
+  "account": "444444",
+  "name": "太宰",
   "password": "123456",
   "sex": "1",
-  "idCard": "372328199905120312",
+  "idCard": "372328199805120312",
   "createTime": "",
   "updateTime": "",
   "isDeleted": "0"
@@ -24,7 +24,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
+  "id": "101064",
   "account": "admin",
   "name": "小石",
   "password": "123456",
@@ -40,7 +40,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "id": "1",
+  "id": "101064",
   "isDeleted": "1"
 }
 
@@ -79,10 +79,10 @@ Content-Type: application/json
   "id": "101062",
   "parents": [
     {
-      "id": "301062"
+      "id": "1101063"
     },
     {
-      "id": "401062"
+      "id": "1101064"
     }
   ]
 }

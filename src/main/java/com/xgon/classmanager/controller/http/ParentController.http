@@ -1,0 +1,67 @@
+### 家长新增
+POST http://127.0.0.1:8080/demo/parent/addParent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "account": "admin",
+  "name": "小张",
+  "password": "123456",
+  "sex": "1",
+  "phone": "18845623216",
+  "createTime": "",
+  "updateTime": "",
+  "isDeleted": "0"
+}
+
+### 家长修改
+POST http://127.0.0.1:8080/demo/parent/editParent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "1",
+  "account": "admin",
+  "name": "小石",
+  "password": "123456",
+  "sex": "1",
+  "phone": "18845623216",
+  "updateTime": "",
+  "isDeleted": "0"
+}
+
+### 家长删除
+POST http://127.0.0.1:8080/demo/parent/removeParent
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "1",
+  "isDeleted": "1"
+}
+
+### 家长查询（1）
+POST http://127.0.0.1:8080/demo/parent/page
+Content-Type: application/json
+Accept: application/json
+Content-Type: application/json
+
+{
+  "size": 10,
+  "current": 1,
+  "data": {}
+}
+
+### 家长查询（2）
+POST http://127.0.0.1:8080/demo/parent/page
+Accept: application/json
+Content-Type: application/json
+
+{
+  "size": 10,
+  "current": 1,
+  "data": {
+    "account": "333333",
+    "name": "王五"
+  }
+}
