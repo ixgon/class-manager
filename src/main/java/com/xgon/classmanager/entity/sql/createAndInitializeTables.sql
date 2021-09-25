@@ -87,7 +87,7 @@ CREATE TABLE stuclass
     id           INT PRIMARY KEY AUTO_INCREMENT COMMENT '学生-班级id',
     student_id   INT NOT NULL COMMENT '学生id', -- 过去（唯一主键）：student_id   INT NOT NULL UNIQUE COMMENT '学生id',
     classroom_id INT NOT NULL COMMENT '班级id',
-    UNIQUE INDEX (student_id, classroom_id),
+    UNIQUE INDEX (student_id, classroom_id),  -- 防止多次插入相同的(student_id, classroom_id)，因为并没有将这两个字段作为主键，但它们在表中是唯一的！
     FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE,
     FOREIGN KEY (classroom_id) REFERENCES classroom (id) ON DELETE CASCADE
 ) ENGINE INNODB
