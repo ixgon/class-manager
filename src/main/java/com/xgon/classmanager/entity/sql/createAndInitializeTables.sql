@@ -19,7 +19,7 @@ CREATE TABLE student
     name        VARCHAR(25) NOT NULL COMMENT '姓名',
     sex         CHAR(1)     NOT NULL COMMENT '性别（1 男、2 女）',
     id_card     CHAR(18)    NOT NULL UNIQUE COMMENT '身份证号',
-    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- TIMESTAMP OR DATETIME，解放手动使用java创建时间，由数据库自动插入和更新时间
+    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- TIMESTAMP(推荐) OR DATETIME，解放手动使用java创建时间，由数据库自动插入和更新时间
     update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间', -- CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
