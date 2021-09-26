@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ApiResponse exceptionHandler(HttpServletRequest req, Exception e) {
         System.out.println(req);
-        System.out.println(Arrays.toString(e.getStackTrace()));
+        e.printStackTrace();
         log.error("未知异常！原因是：{}", e.getMessage());
         return ApiResponse.INTERNAL_SERVER_ERROR;
     }
