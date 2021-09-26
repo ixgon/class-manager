@@ -11,6 +11,7 @@ import java.util.List;
  * <p>FileName:&ensp;com.xgon.classmanager.entity.<strong>Student.java</strong></p>
  * <p>Date:&ensp;2021-09-23 17:30</p>
  * <p>Description:&ensp;学生表</p>
+ * <P>@JsonInclude(JsonInclude.Include.NON_EMPTY) 与 @JsonInclude(JsonInclude.Include.NON_NULL)</P>
  *
  * @author <a href="mail to: laoshi1998@outlook.com" rel="nofollow">xgon</a>
  * @version 1.0.0

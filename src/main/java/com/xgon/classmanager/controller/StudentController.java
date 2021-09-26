@@ -2,7 +2,7 @@ package com.xgon.classmanager.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xgon.classmanager.api.ResultCode;
+import com.xgon.classmanager.api.ApiResponse;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Student;
 import com.xgon.classmanager.service.StudentService;
@@ -29,32 +29,34 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @SuppressWarnings({"NumericOverflow", "divzero"})
     @GetMapping("/test")
-    public ResultCode test() {
+    public ApiResponse test() {
         System.out.println(1);
-        return ResultCode.SUCCESS;
+        System.out.println(1 / 0);
+        return ApiResponse.SUCCESS;
     }
 
     @PostMapping("/addStudent")
-    public ResultCode addStudent(@RequestBody Student student) {
+    public ApiResponse addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
-        return ResultCode.SUCCESS.setData("添加信息成功");
+        return ApiResponse.SUCCESS.setData("添加信息成功");
     }
 
     @PostMapping("/editStudent")
-    public ResultCode editStudent(@RequestBody Student student) {
+    public ApiResponse editStudent(@RequestBody Student student) {
         studentService.editStudent(student);
-        return ResultCode.SUCCESS.setData("修改信息成功");
+        return ApiResponse.SUCCESS.setData("修改信息成功");
     }
 
     @PostMapping("/removeStudent")
-    public ResultCode removeStudent(@RequestBody Student student) {
+    public ApiResponse removeStudent(@RequestBody Student student) {
         studentService.removeStudent(student);
-        return ResultCode.SUCCESS.setData("移除信息成功");
+        return ApiResponse.SUCCESS.setData("移除信息成功");
     }
 
     @PostMapping("/page")
-    public ResultCode page(@RequestBody Map<String, Object> models) {
+    public ApiResponse page(@RequestBody Map<String, Object> models) {
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
         page.setCurrentPageNum((Integer) models.get("current"));
@@ -71,12 +73,12 @@ public class StudentController {
         /// data.put("records", page.getRecords());
         /// data.put("parents", 2);
         /// data.put("page", page);
-        return ResultCode.SUCCESS.setData(page);
+        return ApiResponse.SUCCESS.setData(page);
     }
 
     @PostMapping("/addStudentParent")
-    public ResultCode addStudentParent(@RequestBody Student student) {
+    public ApiResponse addStudentParent(@RequestBody Student student) {
         studentService.addStudentParent(student);
-        return ResultCode.SUCCESS.setData("学生关联家长成功");
+        return ApiResponse.SUCCESS.setData("学生关联家长成功");
     }
 }

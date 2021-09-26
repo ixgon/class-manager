@@ -2,7 +2,7 @@ package com.xgon.classmanager.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xgon.classmanager.api.ResultCode;
+import com.xgon.classmanager.api.ApiResponse;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Parent;
 import com.xgon.classmanager.service.ParentService;
@@ -34,25 +34,25 @@ public class ParentController {
 
 
     @PostMapping("/addParent")
-    public ResultCode addParent(@RequestBody Parent parent) {
+    public ApiResponse addParent(@RequestBody Parent parent) {
         parentService.addParent(parent);
-        return ResultCode.SUCCESS.setData("添加信息成功");
+        return ApiResponse.SUCCESS.setData("添加信息成功");
     }
 
     @PostMapping("/editParent")
-    public ResultCode editParent(@RequestBody Parent parent) {
+    public ApiResponse editParent(@RequestBody Parent parent) {
         parentService.editParent(parent);
-        return ResultCode.SUCCESS.setData("修改信息成功");
+        return ApiResponse.SUCCESS.setData("修改信息成功");
     }
 
     @PostMapping("/removeParent")
-    public ResultCode removeStudent(@RequestBody Parent parent) {
+    public ApiResponse removeStudent(@RequestBody Parent parent) {
         parentService.removeParent(parent);
-        return ResultCode.SUCCESS.setData("移除信息成功");
+        return ApiResponse.SUCCESS.setData("移除信息成功");
     }
 
     @PostMapping("/page")
-    public ResultCode page(@RequestBody Map<String, Object> models) {
+    public ApiResponse page(@RequestBody Map<String, Object> models) {
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
         page.setCurrentPageNum((Integer) models.get("current"));
@@ -64,6 +64,6 @@ public class ParentController {
 
         parentService.queryParent(page, parent);
 
-        return ResultCode.SUCCESS.setData(page);
+        return ApiResponse.SUCCESS.setData(page);
     }
 }

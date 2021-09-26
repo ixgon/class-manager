@@ -2,7 +2,7 @@ package com.xgon.classmanager.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xgon.classmanager.api.ResultCode;
+import com.xgon.classmanager.api.ApiResponse;
 import com.xgon.classmanager.common.Page;
 import com.xgon.classmanager.entity.Classroom;
 import com.xgon.classmanager.service.ClassroomService;
@@ -33,25 +33,25 @@ public class ClassroomController {
     }
 
     @PostMapping("/addClassroom")
-    public ResultCode addClassroom(@RequestBody Classroom classroom) {
+    public ApiResponse addClassroom(@RequestBody Classroom classroom) {
         classroomService.addClassroom(classroom);
-        return ResultCode.SUCCESS.setData("添加信息成功");
+        return ApiResponse.SUCCESS.setData("添加信息成功");
     }
 
     @PostMapping("/editClassroom")
-    public ResultCode editClassroom(@RequestBody Classroom classroom) {
+    public ApiResponse editClassroom(@RequestBody Classroom classroom) {
         classroomService.editClassroom(classroom);
-        return ResultCode.SUCCESS.setData("修改信息成功");
+        return ApiResponse.SUCCESS.setData("修改信息成功");
     }
 
     @PostMapping("/removeClassroom")
-    public ResultCode removeStudent(@RequestBody Classroom classroom) {
+    public ApiResponse removeStudent(@RequestBody Classroom classroom) {
         classroomService.removeClassroom(classroom);
-        return ResultCode.SUCCESS.setData("移除信息成功");
+        return ApiResponse.SUCCESS.setData("移除信息成功");
     }
 
     @PostMapping("/page")
-    public ResultCode page(@RequestBody Map<String, Object> models) {
+    public ApiResponse page(@RequestBody Map<String, Object> models) {
         Page page = new Page();
         page.setPageSize((Integer) models.get("size"));
         page.setCurrentPageNum((Integer) models.get("current"));
@@ -63,12 +63,12 @@ public class ClassroomController {
 
         classroomService.queryClassroom(page, classroom);
 
-        return ResultCode.SUCCESS.setData(page);
+        return ApiResponse.SUCCESS.setData(page);
     }
 
     @PostMapping("/addClassroomStudent")
-    public ResultCode addClassroomParent(@RequestBody Classroom classroom) {
+    public ApiResponse addClassroomParent(@RequestBody Classroom classroom) {
         classroomService.addClassroomStudent(classroom);
-        return ResultCode.SUCCESS.setData("班级添加学生成功");
+        return ApiResponse.SUCCESS.setData("班级添加学生成功");
     }
 }
