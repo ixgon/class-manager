@@ -3,6 +3,7 @@ package com.xgon.classmanager.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
+@Accessors(chain = true)
 public class Classroom implements Serializable {
     private static final long serialVersionUID = 42L;
 

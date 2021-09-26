@@ -3,6 +3,7 @@ package com.xgon.classmanager.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class Parent extends Person implements Serializable {
     private String phone;
     private List<Student> students;

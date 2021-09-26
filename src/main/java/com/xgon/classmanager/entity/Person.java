@@ -2,6 +2,7 @@ package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @version 1.0.0
  */
 @Data
+@Accessors(chain = true)
 public abstract class Person implements Serializable {
     private static final long serialVersionUID = 42L;
 
