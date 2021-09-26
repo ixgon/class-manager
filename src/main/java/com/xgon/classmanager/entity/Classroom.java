@@ -2,6 +2,7 @@ package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
 public class Classroom implements Serializable {
     private static final long serialVersionUID = 42L;
 
@@ -29,76 +31,16 @@ public class Classroom implements Serializable {
     private String year;
     private String createTime;
     private String updateTime;
-    @JsonProperty(value = "isDeleted")
     private Integer isDeleted;
     private List<Student> students;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getIsDeleted() {
+    @JsonProperty(value = "isDeleted")
+    public Integer getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    @Override
-    public String toString() {
-        return "Classroom{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", year='" + year + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", updateTime='" + updateTime + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", students=" + students +
-                '}';
+    @JsonProperty(value = "isDeleted")
+    public void setDeleted(Integer deleted) {
+        isDeleted = deleted;
     }
 }

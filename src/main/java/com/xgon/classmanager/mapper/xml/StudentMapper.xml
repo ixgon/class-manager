@@ -9,12 +9,12 @@
         </selectKey>
 
         <!-- 注意这里并对设置create_time, update_time，因为为它们在数据库端设置了自动填充行为 CURRENT_TIMESTAMP-->
-        INSERT INTO students(account, password, name, sex, id_card, is_deleted)
+        INSERT INTO student(account, password, name, sex, id_card, is_deleted)
         VALUES (#{account}, #{password}, #{name}, #{sex}, #{idCard}, #{isDeleted})
     </insert>
 
     <update id="editStudent" parameterType="Student">
-        UPDATE students
+        UPDATE student
         <trim prefix="SET" suffixOverrides=",">
             <if test="account != null">account = #{account},</if>
             <if test="password != null">password = #{password},</if>
@@ -28,11 +28,11 @@
     </update>
 
     <delete id="removeStudent" parameterType="Student">
-        UPDATE students
-        <trim prefix="SET">
-            <if test="isDeleted == 1">is_deleted = #{isDeleted}</if>
-        </trim>
-        WHERE id = #{id}
+        <if test="isDeleted == 1">
+            UPDATE student
+            SET is_deleted = #{isDeleted}
+            WHERE id = #{id}
+        </if>
     </delete>
 
     <!-- 不要使用 student.getAccount()，因为getAccount()是其从父类处继承的！
@@ -44,20 +44,21 @@
         由于学生表和家长表等多个表都具有同名字段，为了在进行关联的嵌套结果映射时不会被混淆（混淆会产生错误的映射、错误的结果集），
         需要为每个表的字段设置别名，这就需要我们手动的列出每个涉及到的字段 或 仅仅是涉及到的同名字段(比如只有学生表有id_card字段，就无须再为该字段设置别名)
     -->
-    <select id="queryStudent" resultMap="detailedStudentResult">
+    <select id="queryStudent" resultMap="detailedStudentsResult">
         SELECT
         <include refid="detailedColumnsDivision">
             <property name="student" value="s"/>
-            <property name="stuclass" value="sc"/>
+            <!-- 这里的属性名可以使用下划线进行表示，如 stu_class，在访问时 ${stu_class} 正常访问！ -->
+            <property name="stu_class" value="sc"/>
             <property name="classroom" value="c"/>
-            <property name="stuparent" value="sp"/>
-            <property name="parents" value="p"/>
+            <property name="stu_parent" value="sp"/>
+            <property name="parent" value="p"/>
         </include>
-        FROM students s
-        LEFT OUTER JOIN stuclass sc ON sc.student_id = s.id
+        FROM student s
+        LEFT OUTER JOIN stu_class sc ON sc.student_id = s.id
         LEFT OUTER JOIN classroom c ON c.id = sc.classroom_id
-        LEFT OUTER JOIN stuparent sp ON sp.student_id = s.id
-        LEFT OUTER JOIN parents p ON p.id = sp.parent_id
+        LEFT OUTER JOIN stu_parent sp ON sp.student_id = s.id
+        LEFT OUTER JOIN parent p ON p.id = sp.parent_id
         <trim prefix="WHERE" suffixOverrides="AND | OR">
             <if test="student != null">
                 <!-- test="student != null and student.account != null" -->
@@ -81,29 +82,29 @@
         ${student}.create_time AS ${student}_create_time,
         ${student}.update_time AS ${student}_update_time,
         ${student}.is_deleted AS ${student}_is_deleted,
-        ${stuclass}.student_id AS ${stuclass}_student_id,
-        ${stuclass}.classroom_id AS ${stuclass}_classroom_id,
+        ${stu_class}.student_id AS ${stu_class}_student_id,
+        ${stu_class}.classroom_id AS ${stu_class}_classroom_id,
         ${classroom}.id AS ${classroom}_id,
         ${classroom}.name AS ${classroom}_name,
         ${classroom}.year AS ${classroom}_year,
         ${classroom}.create_time AS ${classroom}_create_time,
         ${classroom}.update_time AS ${classroom}_update_time,
         ${classroom}.is_deleted AS ${classroom}_is_deleted,
-        ${stuparent}.student_id AS ${stuparent}_student_id,
-        ${stuparent}.parent_id AS ${stuparent}_parent_id,
-        ${parents}.id AS ${parents}_id,
-        ${parents}.account AS ${parents}_account,
-        ${parents}.password AS ${parents}_password,
-        ${parents}.name AS ${parents}_name,
-        ${parents}.phone AS ${parents}_phone,
-        ${parents}.sex AS ${parents}_sex,
-        ${parents}.create_time AS ${parents}_create_time,
-        ${parents}.update_time AS ${parents}_update_time,
-        ${parents}.is_deleted AS ${parents}_is_deleted
+        ${stu_parent}.student_id AS ${stu_parent}_student_id,
+        ${stu_parent}.parent_id AS ${stu_parent}_parent_id,
+        ${parent}.id AS ${parent}_id,
+        ${parent}.account AS ${parent}_account,
+        ${parent}.password AS ${parent}_password,
+        ${parent}.name AS ${parent}_name,
+        ${parent}.phone AS ${parent}_phone,
+        ${parent}.sex AS ${parent}_sex,
+        ${parent}.create_time AS ${parent}_create_time,
+        ${parent}.update_time AS ${parent}_update_time,
+        ${parent}.is_deleted AS ${parent}_is_deleted
     </sql>
 
     <!-- 自动识别为一个Student对象，或一个集合List<Student> -->
-    <resultMap id="detailedStudentResult" type="Student">
+    <resultMap id="detailedStudentsResult" type="Student">
         <id property="id" column="s_id"/>
         <result property="account" column="s_account"/>
         <result property="password" column="s_password"/>
@@ -161,7 +162,7 @@
         <if test="#{0} != null and parents != null">
         </if>
         -->
-        INSERT INTO stuparent(student_id, parent_id)
+        INSERT INTO stu_parent(student_id, parent_id)
         VALUES
         <foreach collection="parents" item="item" index="index" separator=",">
             (#{id}, #{item.id})

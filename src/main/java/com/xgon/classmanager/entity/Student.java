@@ -1,6 +1,8 @@
 package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
  * @version 1.0.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Student extends Person implements Serializable {
     private String idCard;
     /**
@@ -22,48 +26,4 @@ public class Student extends Person implements Serializable {
      */
     private List<Classroom> classrooms;
     private List<Parent> parents;
-
-    public Student() {
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    public List<Classroom> getClassroom() {
-        return classrooms;
-    }
-
-    public void setClassroom(List<Classroom> classrooms) {
-        this.classrooms = classrooms;
-    }
-
-    public List<Parent> getParents() {
-        return parents;
-    }
-
-    public void setParents(List<Parent> parents) {
-        this.parents = parents;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", sex=" + sex +
-                ", idCard='" + idCard + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", updateTime='" + updateTime + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", classroom=" + classrooms +
-                ", parents=" + parents +
-                '}';
-    }
 }

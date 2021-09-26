@@ -28,16 +28,16 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="queryClassroom" resultMap="detailedClassroomResult">
+    <select id="queryClassroom" resultMap="detailedClassroomsResult">
         SELECT
         <include refid="detailedColumnsDivision">
             <property name="student" value="s"/>
-            <property name="stuclass" value="sc"/>
+            <property name="stu_class" value="sc"/>
             <property name="classroom" value="c"/>
         </include>
         FROM classroom c
-        LEFT OUTER JOIN stuclass sc ON sc.classroom_id = c.id
-        LEFT OUTER JOIN students s ON s.id = sc.student_id
+        LEFT OUTER JOIN stu_class sc ON sc.classroom_id = c.id
+        LEFT OUTER JOIN student s ON s.id = sc.student_id
         <trim prefix="WHERE" suffixOverrides="AND | OR">
             <if test="classroom != null">
                 <if test="classroom.name != null">
@@ -59,8 +59,8 @@
         ${student}.create_time AS ${student}_create_time,
         ${student}.update_time AS ${student}_update_time,
         ${student}.is_deleted AS ${student}_is_deleted,
-        ${stuclass}.student_id AS ${stuclass}_student_id,
-        ${stuclass}.classroom_id AS ${stuclass}_classroom_id,
+        ${stu_class}.student_id AS ${stu_class}_student_id,
+        ${stu_class}.classroom_id AS ${stu_class}_classroom_id,
         ${classroom}.id AS ${classroom}_id,
         ${classroom}.name AS ${classroom}_name,
         ${classroom}.year AS ${classroom}_year,
@@ -69,7 +69,7 @@
         ${classroom}.is_deleted AS ${classroom}_is_deleted
     </sql>
 
-    <resultMap id="detailedClassroomResult" type="Classroom">
+    <resultMap id="detailedClassroomsResult" type="Classroom">
         <id property="id" column="c_id"/>
         <result property="name" column="c_name"/>
         <result property="year" column="c_year"/>
@@ -92,7 +92,7 @@
     </resultMap>
 
     <insert id="addClassroomStudent" parameterType="Classroom">
-        INSERT INTO stuclass(classroom_id, student_id)
+        INSERT INTO stu_class(classroom_id, student_id)
         VALUES
         <foreach collection="students" item="item" index="index" separator=",">
             (#{id}, #{item.id})

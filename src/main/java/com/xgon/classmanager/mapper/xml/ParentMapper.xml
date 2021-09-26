@@ -6,12 +6,12 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
 
-        INSERT INTO parents(account, password, name, phone, sex, is_deleted)
+        INSERT INTO parent(account, password, name, phone, sex, is_deleted)
         VALUES (#{account}, #{password}, #{name}, #{phone},#{sex}, #{isDeleted})
     </insert>
 
     <update id="editParent" parameterType="Parent">
-        UPDATE parents
+        UPDATE parent
         <trim prefix="SET" suffixOverrides=",">
             <if test="account != null">account = #{account},</if>
             <if test="password != null">password = #{password},</if>
@@ -24,23 +24,23 @@
     </update>
 
     <delete id="removeParent" parameterType="Parent">
-        UPDATE parents
+        UPDATE parent
         <trim prefix="SET">
             <if test="isDeleted == 1">is_deleted = #{isDeleted}</if>
         </trim>
         WHERE id = #{id}
     </delete>
 
-    <select id="queryParent" resultMap="detailedParentResult">
+    <select id="queryParent" resultMap="detailedParentsResult">
         SELECT
         <include refid="detailedColumnsDivision">
             <property name="student" value="s"/>
-            <property name="stuparent" value="sp"/>
-            <property name="parents" value="p"/>
+            <property name="stu_parent" value="sp"/>
+            <property name="parent" value="p"/>
         </include>
-        FROM parents p
-        LEFT OUTER JOIN stuparent sp ON sp.parent_id = p.id
-        LEFT OUTER JOIN students s ON s.id = sp.student_id
+        FROM parent p
+        LEFT OUTER JOIN stu_parent sp ON sp.parent_id = p.id
+        LEFT OUTER JOIN student s ON s.id = sp.student_id
         <trim prefix="WHERE" suffixOverrides="AND | OR">
             <if test="parent != null">
                 <if test="parent.account != null">
@@ -62,20 +62,20 @@
         ${student}.create_time AS ${student}_create_time,
         ${student}.update_time AS ${student}_update_time,
         ${student}.is_deleted AS ${student}_is_deleted,
-        ${stuparent}.student_id AS ${stuparent}_student_id,
-        ${stuparent}.parent_id AS ${stuparent}_parent_id,
-        ${parents}.id AS ${parents}_id,
-        ${parents}.account AS ${parents}_account,
-        ${parents}.password AS ${parents}_password,
-        ${parents}.name AS ${parents}_name,
-        ${parents}.phone AS ${parents}_phone,
-        ${parents}.sex AS ${parents}_sex,
-        ${parents}.create_time AS ${parents}_create_time,
-        ${parents}.update_time AS ${parents}_update_time,
-        ${parents}.is_deleted AS ${parents}_is_deleted
+        ${stu_parent}.student_id AS ${stu_parent}_student_id,
+        ${stu_parent}.parent_id AS ${stu_parent}_parent_id,
+        ${parent}.id AS ${parent}_id,
+        ${parent}.account AS ${parent}_account,
+        ${parent}.password AS ${parent}_password,
+        ${parent}.name AS ${parent}_name,
+        ${parent}.phone AS ${parent}_phone,
+        ${parent}.sex AS ${parent}_sex,
+        ${parent}.create_time AS ${parent}_create_time,
+        ${parent}.update_time AS ${parent}_update_time,
+        ${parent}.is_deleted AS ${parent}_is_deleted
     </sql>
 
-    <resultMap id="detailedParentResult" type="Parent">
+    <resultMap id="detailedParentsResult" type="Parent">
         <id property="id" column="p_id"/>
         <result property="account" column="p_account"/>
         <result property="password" column="p_password"/>

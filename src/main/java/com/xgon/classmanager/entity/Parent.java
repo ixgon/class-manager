@@ -1,6 +1,8 @@
 package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,39 +16,9 @@ import java.util.List;
  * @version 1.0.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Parent extends Person implements Serializable {
     private String phone;
     private List<Student> students;
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    @Override
-    public String toString() {
-        return "Parent{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", sex=" + sex +
-                ", createTime='" + createTime + '\'' +
-                ", updateTime='" + updateTime + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", students=" + students +
-                '}';
-    }
 }

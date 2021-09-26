@@ -1,6 +1,7 @@
 package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @author <a href="mail to: laoshi1998@outlook.com" rel="nofollow">xgon</a>
  * @version 1.0.0
  */
+@Data
 public abstract class Person implements Serializable {
     private static final long serialVersionUID = 42L;
 
@@ -27,7 +29,8 @@ public abstract class Person implements Serializable {
     protected String updateTime;
     /**
      * <p>Description:&ensp;删除此人的信息标志位（并非真正的删除）</p>
-     * <p>注意。因为是is开头的属性，在进行json解析时，会将其属性名中的is去掉。所以这里需要@JsonProperty注解进行属性名解析的映射。
+     * <p>注意。因为是is开头的属性，在进行json解析时，会将其属性名中的is去掉。调用的是 getDeleted() 而非getIsDeleted()，
+     * 所以这里需要@JsonProperty注解进行属性名解析的映射。
      * 需要注意的是@JsonProperty(value = "isDeleted")不能加在这里的属性上，要加在下面的getter和setter方法上。
      * 这是因为如果加在属性上。jackson按属性解析一回，还会按下面的getDeleted方法解析一回，这就导致对象序列化后的json字符串
      * 中除了包含一个is_deleted字段，还会包含一个deleted属性！！！
@@ -37,62 +40,6 @@ public abstract class Person implements Serializable {
      * <a href="https://www.cnblogs.com/Zzwena/p/13744846.html">Java属性为什么不能是is开头的boolean</a></p>
      */
     protected Integer isDeleted;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @JsonProperty(value = "isDeleted")
     public Integer getDeleted() {

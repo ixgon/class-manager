@@ -2,6 +2,8 @@ package com.xgon.classmanager.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
  * @version 1.0.0
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@NoArgsConstructor
 public class Page implements Serializable {
     private static final long serialVersionUID = 43L;
 
@@ -71,9 +75,6 @@ public class Page implements Serializable {
      */
     private String uri;
 
-    public Page() {
-    }
-
     public Page(Integer currentPageNum, Integer totalRecords) {
         this.currentPageNum = currentPageNum;
         this.totalRecords = totalRecords;
@@ -110,120 +111,7 @@ public class Page implements Serializable {
 
     }
 
-    public List<Serializable> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<Serializable> records) {
-        this.records = records;
-    }
-
-    public Integer getCurrentPageNum() {
-        return currentPageNum;
-    }
-
     public void buildStartIndex() {
         startIndex = (currentPageNum - 1) * pageSize;
-    }
-
-    public void setCurrentPageNum(Integer currentPageNum) {
-        this.currentPageNum = currentPageNum;
-    }
-
-    public Integer getPrePageNum() {
-        return prePageNum;
-    }
-
-    public void setPrePageNum(Integer prePageNum) {
-        this.prePageNum = prePageNum;
-    }
-
-    public Integer getNextPageNum() {
-        return nextPageNum;
-    }
-
-    public void setNextPageNum(Integer nextPageNum) {
-        this.nextPageNum = nextPageNum;
-    }
-
-    public Integer getStartPageNum() {
-        return startPageNum;
-    }
-
-    public void setStartPageNum(Integer startPageNum) {
-        this.startPageNum = startPageNum;
-    }
-
-    public Integer getEndPageNum() {
-        return endPageNum;
-    }
-
-    public void setEndPageNum(Integer endPageNum) {
-        this.endPageNum = endPageNum;
-    }
-
-    public Integer getShowPageCount() {
-        return showPageCount;
-    }
-
-    public void setShowPageCount(Integer showPageCount) {
-        this.showPageCount = showPageCount;
-    }
-
-    public Integer getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Integer getTotalRecords() {
-        return totalRecords;
-    }
-
-    public void setTotalRecords(Integer totalRecords) {
-        this.totalRecords = totalRecords;
-    }
-
-    public Integer getStartIndex() {
-        return startIndex;
-    }
-
-    public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    @Override
-    public String toString() {
-        return "Page{" +
-                "records=" + records +
-                ", currentPageNum=" + currentPageNum +
-                ", prePageNum=" + prePageNum +
-                ", nextPageNum=" + nextPageNum +
-                ", startPageNum=" + startPageNum +
-                ", endPageNum=" + endPageNum +
-                ", totalPages=" + totalPages +
-                ", pageSize=" + pageSize +
-                ", totalRecords=" + totalRecords +
-                ", startIndex=" + startIndex +
-                ", uri='" + uri + '\'' +
-                '}';
     }
 }
