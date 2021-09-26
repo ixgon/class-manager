@@ -36,7 +36,13 @@ public enum ApiResponse implements Serializable {
     /**
      * <p>Description:&ensp;成功</p>
      */
-    SUCCESS(200, "success"),
+    SUCCESS(200, "success!"),
+    NOT_FOUND("404", "未找到该资源!"),
+    /**
+     * <p>Description:&ensp;服务器内部错误</p>
+     */
+    INTERNAL_SERVER_ERROR("500", "服务器内部错误！"),
+    SERVER_BUSY("503", "服务器正忙，请稍后再试!"),
     /**
      * <p>Description:&ensp;未知错误</p>
      */
@@ -44,15 +50,7 @@ public enum ApiResponse implements Serializable {
     /**
      * <p>Description:&ensp;失败</p>
      */
-    FAILURE("1001", "failure"),
-    /**
-     * <p>Description:&ensp;空指针异常</p>
-     */
-    NULL_POINTER_EXCEPTION("1002", "null pointer exception!"),
-    /**
-     * <p>Description:&ensp;服务器内部错误</p>
-     */
-    INTERNAL_SERVER_ERROR("1111", "internal server error!");
+    FAILURE("1001", "failure!");
 
     private static final long serialVersionUID = 42L;
 

@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NullPointerException.class)
     public ApiResponse exceptionHandler(NullPointerException e) {
         log.error("发生业务异常！原因是：{}", e.getMessage());
-        return ApiResponse.NULL_POINTER_EXCEPTION;
+        return ApiResponse.INTERNAL_SERVER_ERROR;
     }
 
     /**
