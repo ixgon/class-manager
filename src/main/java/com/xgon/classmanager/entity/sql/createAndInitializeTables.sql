@@ -19,8 +19,8 @@ CREATE TABLE student
     name        VARCHAR(25) NOT NULL COMMENT '姓名',
     sex         CHAR(1)     NOT NULL COMMENT '性别（1 男、2 女）',
     id_card     CHAR(18)    NOT NULL UNIQUE COMMENT '身份证号',
-    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- TIMESTAMP(推荐) OR DATETIME，解放手动使用java创建时间，由数据库自动插入和更新时间
-    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间', -- CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    create_time TIMESTAMP            DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- TIMESTAMP(推荐) OR DATETIME，解放手动使用java创建时间，由数据库自动插入和更新时间
+    update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',          -- CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
@@ -41,8 +41,8 @@ CREATE TABLE parent
     name        VARCHAR(25) NOT NULL COMMENT '姓名',
     phone       CHAR(11)    NOT NULL COMMENT '手机号',
     sex         CHAR(1)     NOT NULL COMMENT '性别（1 男、2 女）',
-    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    create_time TIMESTAMP            DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
@@ -72,8 +72,8 @@ CREATE TABLE classroom
     id          INT PRIMARY KEY AUTO_INCREMENT COMMENT '班级id（可以是有序的主键，用来替代 年级+班级名称 唯一代表一条记录）',
     name        VARCHAR(25) NOT NULL COMMENT '班级名称',
     year        CHAR(6)     NOT NULL COMMENT '年级',
-    create_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time DATETIME             DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+    create_time TIMESTAMP            DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     is_deleted  CHAR(1)     NOT NULL DEFAULT 0 COMMENT '是否删除（0 未删、1 已删）'
 ) ENGINE INNODB
   CHARACTER SET UTF8MB4
@@ -96,24 +96,24 @@ CREATE TABLE stu_class
   AUTO_INCREMENT 1 COMMENT '学生-班级信息表';
 
 -- 初始化学生表、家长表、班级表、学生-班级表【3条多数据即可】
-INSERT INTO student (id, account, password, name, sex, id_card, create_time, update_time, is_deleted)
-VALUES (101061, '111111', '123456', '张三', '1', '325412197007055415', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
-       (101062, '222222', '123456', '李四', '1', '325412197007055416', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (101063, '333333', '123456', '王五', '1', '325412197007055417', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0'),
-       (101064, '444444', '123456', '王六', '1', '325412197007055418', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
+INSERT INTO student (id, account, password, name, sex, id_card, is_deleted)
+VALUES (101061, '111111', '123456', '张三', '1', '325412197007055415', '0'),
+       (101062, '222222', '123456', '李四', '1', '325412197007055416', '0'),
+       (101063, '333333', '123456', '王五', '1', '325412197007055417', '0'),
+       (101064, '444444', '123456', '王六', '1', '325412197007055418', '0');
 
 UPDATE student
 SET account = 'admin',
     name    = '太宰'
 WHERE id = 1;
 
-INSERT INTO parent (id, account, password, name, phone, sex, create_time, update_time, is_deleted)
-VALUES (1101061, '011110', '123456', '张父', '17860529500', '1', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
-       (1101062, '022220', '123456', '李父', '17860529501', '1', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (1101063, '022230', '123456', '李母', '17860529521', '2', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (1101064, '022240', '123456', '李义父', '17860529531', '1', '2021-05-13 11:20:30', '2021-05-14 11:20:30', '0'),
-       (1101065, '033330', '123456', '王父', '17860529502', '1', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0'),
-       (1101066, '033331', '123456', '王母', '17860529503', '2', '2021-05-14 11:20:30', '2021-05-15 11:20:30', '0');
+INSERT INTO parent (id, account, password, name, phone, sex, is_deleted)
+VALUES (1101061, '011110', '123456', '张父', '17860529500', '1', '0'),
+       (1101062, '022220', '123456', '李父', '17860529501', '1', '0'),
+       (1101063, '022230', '123456', '李母', '17860529521', '2', '0'),
+       (1101064, '022240', '123456', '李义父', '17860529531', '1', '0'),
+       (1101065, '033330', '123456', '王父', '17860529502', '1', '0'),
+       (1101066, '033331', '123456', '王母', '17860529503', '2', '0');
 
 INSERT INTO stu_parent (id, student_id, parent_id)
 VALUES (1, 101061, 1101061),
@@ -126,10 +126,10 @@ VALUES (1, 101061, 1101061),
 -- (8, 101062, 1101064)
 ;
 
-INSERT INTO classroom (id, name, year, create_time, update_time, is_deleted)
-VALUES (0001, '一班', '2020级', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
-       (0002, '二班', '2020级', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0'),
-       (0003, '三班', '2021级', '2021-05-12 11:20:30', '2021-05-13 11:20:30', '0');
+INSERT INTO classroom (id, name, year, is_deleted)
+VALUES (0001, '一班', '2020级', '0'),
+       (0002, '二班', '2020级', '0'),
+       (0003, '三班', '2021级', '0');
 
 INSERT INTO stu_class (id, student_id, classroom_id)
 VALUES (1, 101061, 0001),
