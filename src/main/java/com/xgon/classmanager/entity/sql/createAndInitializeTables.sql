@@ -65,6 +65,7 @@ CREATE TABLE stu_parent
   AUTO_INCREMENT 1 COMMENT '学生-家长信息表';
 
 -- 创建班级表
+-- Mybatis-Plus 不推荐使用复合主键，约定每一张表都有自己的唯一 id 主键
 DROP TABLE IF EXISTS stu_class;
 DROP TABLE IF EXISTS classroom;
 CREATE TABLE classroom
