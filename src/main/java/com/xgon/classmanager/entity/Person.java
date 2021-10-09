@@ -1,9 +1,7 @@
 package com.xgon.classmanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -46,14 +44,4 @@ public abstract class Person implements Serializable {
      * <a href="https://www.cnblogs.com/Zzwena/p/13744846.html">Java属性为什么不能是is开头的boolean</a></p>
      */
     protected Integer isDeleted;
-
-    @JsonProperty(value = "isDeleted")
-    public Integer getDeleted() {
-        return isDeleted;
-    }
-
-    @JsonProperty(value = "isDeleted")
-    public void setDeleted(Integer deleted) {
-        isDeleted = deleted;
-    }
 }
